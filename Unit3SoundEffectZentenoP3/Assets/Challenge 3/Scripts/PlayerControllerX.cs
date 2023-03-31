@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 
 public class PlayerControllerX : MonoBehaviour
@@ -7,6 +8,7 @@ public class PlayerControllerX : MonoBehaviour
     public bool gameOver;
     public bool isLowEnough;
 
+    private Vector3 direction;
     public float floatForce;
     private float gravityModifier = 1.5f;
     private Rigidbody playerRb;
@@ -38,7 +40,7 @@ public class PlayerControllerX : MonoBehaviour
         // While space is pressed and player is low enough, float up
         if (Input.GetKey(KeyCode.Space) && isLowEnough && !gameOver)
         {
-            playerRb.AddForce(Vector3.up * floatForce);
+           playerRb.AddForce(Vector3.up * floatForce);
         }
 
         if (transform.position.y > 13)
@@ -74,7 +76,8 @@ public class PlayerControllerX : MonoBehaviour
 
         else if (other.gameObject.CompareTag("Ground") && !gameOver)
         {
-            playerRb
+            playerRb.AddForce(Vector3.up * 10, ForceMode.Impulse);
+            playerAudio.PlayOneShot(bounceSound, 1.5f);
         }
 
     }
